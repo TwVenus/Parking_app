@@ -1,0 +1,32 @@
+{
+    "ios": {
+        "debug": {
+            "codeSignIdentity": "iPhone Distribution: Micron Technology",
+            "developmentTeam": "QL7Q7586UJ",
+            "provisioningProfile": "a2e8c543-1a7e-4a4d-a71a-57eab103e482",
+            "packageType": "enterprise"
+        },
+        "release": {
+            "codeSignIdentity": "iPhone Distribution: Micron Technology",
+            "developmentTeam": "QL7Q7586UJ",
+            "provisioningProfile": "a2e8c543-1a7e-4a4d-a71a-57eab103e482",
+            "packageType": "enterprise"
+        }
+    },
+    "android": {
+        "debug": {
+            "keystore": "stest.keystore",
+            "storePassword": "nowisthetime",
+            "alias": "stest",
+            "password": "nowisthetime",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "stest.keystore",
+            "storePassword": "nowisthetime",
+            "alias": "stest",
+            "password": "nowisthetime",
+            "keystoreType": ""
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "mobiletemplate",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/*",
+      "proxyUrl": "http://proxy-web.micron.com:80"
+    }
+  ]
+}

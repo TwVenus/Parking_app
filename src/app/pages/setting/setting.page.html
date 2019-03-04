@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start menuToggle>
+            <button ion-button>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Setting</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="masters">
+    <ion-list>
+        <ion-item>
+            <ion-icon name="md-volume-up" item-left></ion-icon>
+            <ion-label>Voice</ion-label>
+            <ion-toggle (ionChange)="onToggle($event)" [checked]="checkAltVoice()"></ion-toggle>
+        </ion-item>
+        <button ion-item (click)="editDistance(distanceCollection)">
+            <ion-icon name="ios-paper-plane" item-start></ion-icon>
+            <ion-label>Distance</ion-label>
+            <ion-note item-end>{{ distanceCollection }}</ion-note>
+        </button>
+        <ion-item>
+            <ion-icon name="md-chatboxes" item-start></ion-icon>
+            <ion-label>Language</ion-label>
+            <ion-select [(ngModel)]="language" (ionChange)="onToSelectLanguage()">
+                <ion-option value="zh-CN" [selected]="checkLanguage('zh-CN')">Chinese</ion-option>
+                <ion-option value="en-US" [selected]="checkLanguage('en-US')">English</ion-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+    <ion-list-header>
+        order
+        <button ion-button clear color="secondary" *ngIf="!isModifyStatus" (click)="onEnterModifyMode(isModifyStatus)"
+            item-right>
+            Modify
+        </button>
+        <button ion-button clear color="primary" *ngIf="isModifyStatus" (click)="onEnterModifyMode(isModifyStatus)"
+            item-right>
+            Save
+        </button>
+    </ion-list-header>
+    <ion-list *ngIf="!isModifyStatus">
+        <ion-item *ngFor="let item of areasCollection">
+            <ion-label>{{ item.area }}</ion-label>
+            <ion-checkbox color="dark" [checked]="item.check" disabled></ion-checkbox>
+        </ion-item>
+    </ion-list>
+    <ion-list *ngIf="isModifyStatus" reorder="true" (ionItemReorder)="reorderItems($event)">
+        <ion-item *ngFor="let item of areasCollection">
+            <ion-label>{{ item.area }}</ion-label>
+            <ion-checkbox color="dark" (ionChange)="onToCheck($event, item)" [checked]="item.check"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+</ion-content>

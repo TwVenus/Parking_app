@@ -1,0 +1,35 @@
+ion-toast {
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 3px #aaa;
+
+    .toast-container{
+        background-color: #cce5ff;
+        border-color: #b8daff;
+
+        .toast-message,
+        .toast-button {
+            color: #004085 !important;
+        }
+    }
+}
+ion-toast.toast-success-message {
+    .toast-container{
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        .toast-message,
+        .toast-button{
+            color: #155724 !important;
+        }
+    }
+}
+        
+ion-toast.toast-error-message {
+    .toast-container{
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        .toast-message,
+        .toast-button {
+            color: #721c24!important;
+        }
+    }
+}
