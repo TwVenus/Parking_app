@@ -3,33 +3,41 @@ import { Storage } from "@ionic/storage";
 
 import { Area } from "../models/area.interface";
 import { Settings } from "../models/setting.interface";
+import { DefaultService } from "./default.service";
+import { ParkingLot } from "../models/parkinglot.interface";
 
 @Injectable()
 export class SettingService {
     private settings: Settings;
 
-    constructor(private storage: Storage) { }
+    constructor(private storage: Storage, private defaultService: DefaultService) { }
 
     //save settings into storage
     saveSettings() {
-        this.storage.set('settings', this.settings)
-            .then(
-                () =>{
-                    console.log('Success save !');
-                }
-            )
-            .catch(
-                error => {
-                    this.settings = {
-                        altVoiceControl: false, distance: 300, language: 'en-US', areas_List: [
-                            { area: 'A1A2', postion_lat: 24.318230, postion_long: 120.724057, check: true },
-                            { area: 'P1', postion_lat: 24.321710, postion_long: 120.726621, check: true }
-                        ]
-                    };
-                    
-                    console.log('Error save : ' + error.messages)
-                }
-            );
+        this.storage.ready().then(
+            () => {
+                this.storage.remove('settings').then(
+                    () => {
+                        console.log('Success delete !');
+                        this.storage.set('settings', this.settings)
+                            .then(
+                                () => {
+                                    console.log('Success save !');
+                                }
+                            )
+                            .catch(
+                                error => {
+                                    console.log('Error save : ' + error.messages)
+                                }
+                            );
+                    }
+                )
+                    .catch(
+                        error => {
+                            console.log('Error save : ' + error.messages)
+                        }
+                    );
+            });
     }
 
     // get settings from storage
@@ -37,11 +45,28 @@ export class SettingService {
         return this.storage.get('settings')
             .then(
                 (settings: Settings) => {
-                    this.settings = settings != null ? settings : {
-                        altVoiceControl: false, distance: 300, language: 'en-US', areas_List: [
-                            { area: 'A1A2', postion_lat: 24.318230, postion_long: 120.724057, check: true },
-                            { area: 'P1', postion_lat: 24.321710, postion_long: 120.726621, check: true }
-                        ]
+                    this.settings = settings;
+
+                    if (this.settings == null) {
+                        const area_list: Area[] = [];
+
+                        this.defaultService.getParkingLotData().subscribe(data => {
+                            const parkinglot_data: ParkingLot[] = data;
+                            parkinglot_data.forEach(element => {
+                                area_list.push({
+                                    area: element.Area,
+                                    postion_lat: element.Latitude,
+                                    postion_long: element.Longitude,
+                                    check: true
+                                });
+                            });
+                        });
+
+                        this.settings = {
+                            altVoiceControl: false, distance: 300, language: 'en-US', areas_List: area_list
+                        };
+
+
                     }
 
                     console.log('Success data get!');
@@ -50,21 +75,13 @@ export class SettingService {
             )
             .catch(
                 error => {
-                    this.settings = {
-                        altVoiceControl: false, distance: 300, language: 'en-US', areas_List: [
-                            { area: 'A1A2', postion_lat: 24.318230, postion_long: 120.724057, check: true },
-                            { area: 'P1', postion_lat: 24.321710, postion_long: 120.726621, check: true }
-                        ]
-                    };
-
                     console.log('Error data get : ' + error.messages);
-                    return this.settings;
                 }
             );
     }
-    
+
     // voice setting
-    setVoiceControl(isAlt: boolean) {      
+    setVoiceControl(isAlt: boolean) {
         this.settings.altVoiceControl = isAlt;
         this.saveSettings();
     }

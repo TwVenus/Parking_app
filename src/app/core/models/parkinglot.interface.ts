@@ -7,5 +7,8 @@
 export interface ParkingLot {
     Area: string;
     CurrentQuantity: number;
+    Latitude: number;
+    Longitude: number;
+    Light: String;
     UpdateDatetime: string;
 }

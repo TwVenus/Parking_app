@@ -15,16 +15,16 @@
     },
     "android": {
         "debug": {
-            "keystore": "stest.keystore",
+            "keystore": "smartparking.keystore",
             "storePassword": "nowisthetime",
-            "alias": "stest",
+            "alias": "smartparking",
             "password": "nowisthetime",
             "keystoreType": ""
         },
         "release": {
-            "keystore": "stest.keystore",
+            "keystore": "smartparking.keystore",
             "storePassword": "nowisthetime",
-            "alias": "stest",
+            "alias": "smartparking",
             "password": "nowisthetime",
             "keystoreType": ""
         }

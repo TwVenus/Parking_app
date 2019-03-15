@@ -39,7 +39,7 @@ import static com.microsoft.aad.adal.SimpleSerialization.tokenItemToJSON;
 
 public class CordovaAdalPlugin extends CordovaPlugin {
 
-    private static final PromptBehavior SHOW_PROMPT_ALWAYS = PromptBehavior.Always;
+    private static final PromptBehavior SHOW_PROMPT_ALWAYS = PromptBehavior.Auto;
 
     private static final int GET_ACCOUNTS_PERMISSION_REQ_CODE = 0;
     private static final String PERMISSION_DENIED_ERROR =  "Permissions denied";

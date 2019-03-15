@@ -9,15 +9,18 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding class="masters">
+<ion-content padding class="home-background">
     <ion-input type="text" [(ngModel)]="speakText[0]" hidden></ion-input>
-    <ion-card *ngFor="let item of parkingLotsCollection; let i = index;">
-        <div [ngStyle]="{'background-color': item.CurrentQuantity >= 1000 ? 'rgb(0, 119, 200)' : (item.CurrentQuantity <= 500 ? 'rgb(243, 82, 77)' : 'rgb(191, 154, 0)')}"
+    <ion-card *ngFor="let item of parkingLotsCollection; let i = index;" style="padding:0px">
+        <div [ngStyle]="{'background-color': item.Light == 'G' ? 'rgb(0, 119, 200)' : (item.Light == 'R' ? 'rgb(243, 82, 77)' : 'rgb(255, 192, 0)')}"
             class="space_header_background">
             <ion-grid>
                 <ion-row>
                     <ion-col text-left>
                         <h1 class="space_header">{{ item.Area }}</h1>
+                    </ion-col>
+                    <ion-col text-right>
+                        <div class="header-icon-logo"></div>
                     </ion-col>
                 </ion-row>
                 <ion-row>

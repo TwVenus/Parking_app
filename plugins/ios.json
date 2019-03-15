@@ -1,43 +1,55 @@
 {
-  "prepare_queue": {
-    "installed": [],
-    "uninstalled": []
-  },
-  "config_munge": {
-    "files": {}
-  },
-  "installed_plugins": {
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.micron.stest"
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
     },
-    "cordova-plugin-ionic-keyboard": {
-      "PACKAGE_NAME": "com.micron.stest"
+    "config_munge": {
+        "files": {}
     },
-    "cordova-plugin-ms-adal": {
-      "PACKAGE_NAME": "com.micron.stest"
+    "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-ionic-keyboard": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-ms-adal": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-tts": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-background-mode": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-insomnia": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        },
+        "cordova-plugin-background-fetch": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        }
     },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.micron.stest"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.micron.stest"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.micron.stest"
-    },
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "com.micron.stest"
-    },
-    "cordova-plugin-tts": {
-      "PACKAGE_NAME": "com.micron.stest"
-    },
-    "cordova-sqlite-storage": {
-      "PACKAGE_NAME": "com.micron.stest"
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.micron.SmartParking"
+        }
     }
-  },
-  "dependent_plugins": {
-    "cordova-plugin-compat": {
-      "PACKAGE_NAME": "com.micron.stest"
-    }
-  }
 }

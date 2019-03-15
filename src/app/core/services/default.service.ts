@@ -21,8 +21,7 @@ export class DefaultService {
   }
 
   getParkingLotData(): Observable<any> {
-    //let API_URI = this.BASE_URI + environment.apiConfig.getParkingLotData;
-    let API_URI = "https://smartparking1.herokuapp.com/api.php";
+    let API_URI = this.BASE_URI + environment.apiConfig.getParkingLotData;
     console.log(API_URI);
     return this._http.get(API_URI);
   }
