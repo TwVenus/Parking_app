@@ -17,10 +17,20 @@
             <ion-toggle (ionChange)="onToggle($event)" [checked]="checkAltVoice()"></ion-toggle>
         </ion-item>
         <button ion-item (click)="editDistance(distanceCollection)">
-            <ion-icon name="ios-paper-plane" item-start></ion-icon>
+            <ion-icon name="locate" item-start></ion-icon>
             <ion-label>Distance</ion-label>
             <ion-note item-end>{{ distanceCollection }}</ion-note>
         </button>
+        <ion-item>
+            <ion-icon name="refresh-circle" item-start></ion-icon>
+            <ion-label>Repeat(30 sec)</ion-label>
+            <ion-select [(ngModel)]="repeat" (ionChange)="onToSelectRepeat()">
+                <ion-option value="Once" [selected]="checkRepeat('Once')">Once</ion-option>
+                <ion-option value="Twice" [selected]="checkRepeat('Twice')">Twice</ion-option>
+                <ion-option value="Three" [selected]="checkRepeat('Three')">Three Times</ion-option>
+                <ion-option value="Always" [selected]="checkRepeat('Always')">Always</ion-option>
+            </ion-select>
+        </ion-item>
         <ion-item>
             <ion-icon name="md-chatboxes" item-start></ion-icon>
             <ion-label>Language</ion-label>

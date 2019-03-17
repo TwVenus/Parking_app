@@ -63,7 +63,7 @@ export class SettingService {
                         });
 
                         this.settings = {
-                            altVoiceControl: false, distance: 300, language: 'en-US', areas_List: area_list
+                            altVoiceControl: false, distance: 300, repeat: 'Always', language: 'en-US', areas_List: area_list
                         };
 
 
@@ -108,6 +108,16 @@ export class SettingService {
 
     getLanguage() {
         return this.settings.language;
+    }
+
+    // repeat setting
+    updateRepeat(times: string) {
+        this.settings.repeat = times;
+        this.saveSettings();
+    }
+
+    getRepeat() {
+        return this.settings.repeat;
     }
 
     // area order setting

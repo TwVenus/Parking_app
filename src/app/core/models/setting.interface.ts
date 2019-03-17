@@ -10,6 +10,7 @@ import { Area } from "./area.interface";
 export class Settings {
     altVoiceControl: boolean;
     distance: number;
+    repeat: string;
     language: string;
     areas_List: Area[];
 }

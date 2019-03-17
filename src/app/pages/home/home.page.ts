@@ -4,16 +4,16 @@ import { ParkingLot } from '../../core/models/parkinglot.interface';
 import { ParkingLotService } from '../../core/services/parkinglotservice';
 import { SettingService } from '../../core/services/settingservice';
 
-import { BackgroundMode } from '@ionic-native/background-mode';
-import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch';
-import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+// import { BackgroundMode } from '@ionic-native/background-mode';
+// import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch';
+// import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 import { Insomnia } from '@ionic-native/insomnia';
 import { Area } from '../../core/models/area.interface';
 import { Settings } from './../../core/models/setting.interface';
-import { LoadingController, AlertController, Platform } from 'ionic-angular';
+import { LoadingController, AlertController } from 'ionic-angular';
 
 @Component({
     selector: 'page-home',
@@ -28,13 +28,13 @@ export class HomePage implements OnInit {
     public speakText: string[] = [];
 
     public loading: any;
-    public running: boolean = true;
+    public voice_repeat: boolean = true;
 
     constructor(
-        private platform: Platform,
-        private backgroundMode: BackgroundMode,
-        private backgroundFetch: BackgroundFetch,
-        private backgroundGeolocation: BackgroundGeolocation,
+        // private platform: Platform,
+        // private backgroundMode: BackgroundMode,
+        // private backgroundFetch: BackgroundFetch,
+        // private backgroundGeolocation: BackgroundGeolocation,
         public insomnia: Insomnia,
         public geolocation: Geolocation,
         private tts: TextToSpeech,
@@ -44,61 +44,59 @@ export class HomePage implements OnInit {
         private parkigLotService: ParkingLotService,
         private settingService: SettingService,
     ) {
+        // // 1) Request background execution
+        // this.backgroundMode.enable();
 
-        //     // 1) Request background execution
-        //     this.backgroundMode.enable();
+        // // 2) Now the app runs ins background but stays awake
+        // this.backgroundMode.on('activate').subscribe(() => {
 
-        //     // 2) Now the app runs ins background but stays awake
-        //     this.backgroundMode.on('activate').subscribe(() => {
+        // }, (err) => {
+        //     console.log('backgroundMode.on("activate") : ' + err);
+        // });
 
-        //     }, (err) => {
-        //         console.log('backgroundMode.on("activate") : ' + err);
-        //     });
+        // // 3) App is back to foreground
+        // this.backgroundMode.on('deactivate').subscribe(() => {
+        //     // do something
+        // }, (err) => {
+        //     console.log('backgroundMode.on("deactivate") : ' + err);
+        // });
 
-        //     // 3) App is back to foreground
-        //     this.backgroundMode.on('deactivate').subscribe(() => {
-        //         // do something
-        //     }, (err) => {
-        //         console.log('backgroundMode.on("deactivate") : ' + err);
-        //     });
+        // const config2: BackgroundFetchConfig = {
+        //     stopOnTerminate: false, // Set true to cease background-fetch from operating after user "closes" the app. Defaults to true.
+        // }
 
-        //     const config2: BackgroundFetchConfig = {
-        //         stopOnTerminate: false, // Set true to cease background-fetch from operating after user "closes" the app. Defaults to true.
-        //     }
+        // this.backgroundFetch.configure(config2)
+        //     .then(() => {
+        //         console.log('Background Fetch initialized');
+        //         this.backgroundFetch.finish();
+        //     })
+        //     .catch(e => console.log('Error initializing background fetch', e));
 
-        //     this.backgroundFetch.configure(config2)
-        //         .then(() => {
-        //             console.log('Background Fetch initialized');
-        //             this.backgroundFetch.finish();
-        //         })
-        //         .catch(e => console.log('Error initializing background fetch', e));
+        // // Start the background-fetch API. Your callbackFn provided to #configure will be executed each time a background-fetch event occurs. NOTE the #configure method automatically calls #start. You do not have to call this method after you #configure the plugin
+        // this.backgroundFetch.start();
 
-        //     // Start the background-fetch API. Your callbackFn provided to #configure will be executed each time a background-fetch event occurs. NOTE the #configure method automatically calls #start. You do not have to call this method after you #configure the plugin
-        //     this.backgroundFetch.start();
+        // // backgroundGeolocation
+        // const config = {
+        //     desiredAccuracy: 0,
+        //     stationaryRadius: 20,
+        //     distanceFilter: 10,
+        //     debug: true,
+        //     interval: 2000
+        // };
 
-        //     // backgroundGeolocation
-        //     const config = {
-        //         desiredAccuracy: 0,
-        //         stationaryRadius: 20,
-        //         distanceFilter: 10,
-        //         debug: true,
-        //         interval: 2000
-        //     };
-
-        //     this.backgroundGeolocation.configure(config).subscribe((location) => {
-        //         this.backgroundGeolocation.start();
-        //     }, (err) => {
-        //         console.log("backgroundGeolocation : " + err);
-        //     });
+        // this.backgroundGeolocation.configure(config).subscribe((location) => {
+        //     this.backgroundGeolocation.start();
+        // }, (err) => {
+        //     console.log("backgroundGeolocation : " + err);
+        // });
 
         // device not sleep
-        // this.insomnia.keepAwake().then(
-        //     () => console.log('Success'),
-        //     () => console.log('error keepAlive')
-        // ).catch(
-        //     (reason: any) => console.log("insomnia : " + reason)
-        // );
-
+        this.insomnia.keepAwake().then(
+            () => console.log('Success'),
+            () => console.log('error keepAlive')
+        ).catch(
+            (reason: any) => console.log("insomnia : " + reason)
+        );
     }
 
     ngOnInit() {
@@ -112,18 +110,35 @@ export class HomePage implements OnInit {
 
     ionViewDidEnter() {
         var ten_min_count = 0;
+        var repeat_times = 0;
+
         setInterval(() => {
-            if (this.running == true) {
-                if (ten_min_count == 2) {
+            if (ten_min_count == 2) {
+                if (this.voice_repeat == true) {
                     if (this.speakText[0] != undefined && this.settings.altVoiceControl == true) {
                         this.speakInformation(this.speakText[0]);
+                        repeat_times = repeat_times + 1;
+
+                        if (this.settings.repeat == "Once" && repeat_times == 1) {
+                            this.voice_repeat = false;
+                        }
+                        else if (this.settings.repeat == "Twice" && repeat_times == 2) {
+                            this.voice_repeat = false;
+                        }
+                        else if (this.settings.repeat == "Three" && repeat_times == 3) {
+                            this.voice_repeat = false;
+                        }
+                        else if (this.settings.repeat == "Always") {
+                            this.voice_repeat = true;
+                        }
                     }
-                    ten_min_count = 0;
                 }
 
-                this.pushInformation();
-                ten_min_count++;
+                ten_min_count = 0;
             }
+
+            this.pushInformation();
+            ten_min_count++;
         }, 10000);
     }
 
@@ -266,8 +281,8 @@ export class HomePage implements OnInit {
         }
     }
 
-    ionViewDidLeave() {
-        this.running = false;
-        this.speakText = null;
-    }
+    // ionViewDidLeave() {
+    //     this.running = false;
+    //     this.speakText = null;
+    // }
 }

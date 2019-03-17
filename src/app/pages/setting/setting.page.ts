@@ -12,6 +12,7 @@ export class SettingPage implements OnInit {
     public areasCollection: Area[] = [];
     public distanceCollection: number = 0;
     public language: string = "";
+    public repeat: string = "";
 
     constructor(private settingsService: SettingService, private alertController: AlertController) { }
 
@@ -19,6 +20,7 @@ export class SettingPage implements OnInit {
         this.areasCollection = this.settingsService.getAreaList();
         this.distanceCollection = this.settingsService.getDistance();
         this.language = this.settingsService.getLanguage();
+        this.repeat = this.settingsService.getRepeat();
     }
 
     onToggle(event: Toggle) {
@@ -67,6 +69,14 @@ export class SettingPage implements OnInit {
 
     checkLanguage(lan: string) {
         return lan == this.language ? true : false;
+    }
+
+    onToSelectRepeat() {
+        this.settingsService.updateRepeat(this.repeat);
+    }
+
+    checkRepeat(times: string) {
+        return times == this.repeat ? true : false;
     }
 
     onEnterModifyMode(mode: boolean) {
