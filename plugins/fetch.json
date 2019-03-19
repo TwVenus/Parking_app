@@ -87,22 +87,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-android-permissions": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-android-permissions"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-background-mode": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-background-mode"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-insomnia": {
         "source": {
             "type": "registry",
@@ -111,18 +95,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-mauron85-background-geolocation": {
+    "cordova-plugin-android-permissions": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-mauron85-background-geolocation@2.3.5"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-background-fetch": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-background-fetch@5.0.0"
+            "id": "cordova-plugin-android-permissions"
         },
         "is_top_level": true,
         "variables": {}

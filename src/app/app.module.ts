@@ -4,14 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
-// import { BackgroundMode } from '@ionic-native/background-mode';
-// import { BackgroundFetch } from '@ionic-native/background-fetch';
-// import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { MSAdal } from '@ionic-native/ms-adal';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { IonicStorageModule } from '@ionic/storage';
-import { Insomnia } from '@ionic-native/insomnia';
+//import { Insomnia } from '@ionic-native/insomnia';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,12 +34,9 @@ import { AppComponent } from './app.component';
         AppComponent
     ],
     providers: [
-        // BackgroundGeolocation,
-        // BackgroundMode,
-        // BackgroundFetch,
         Geolocation,
+        //Insomnia,
         TextToSpeech,
-        Insomnia,
         StatusBar,
         SplashScreen,
         MSAdal,

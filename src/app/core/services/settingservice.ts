@@ -6,11 +6,13 @@ import { Settings } from "../models/setting.interface";
 import { DefaultService } from "./default.service";
 import { ParkingLot } from "../models/parkinglot.interface";
 
+import { AlertController } from 'ionic-angular';
+
 @Injectable()
 export class SettingService {
     private settings: Settings;
 
-    constructor(private storage: Storage, private defaultService: DefaultService) { }
+    constructor(private storage: Storage, private defaultService: DefaultService, private alertCtrl: AlertController, ) { }
 
     //save settings into storage
     saveSettings() {
@@ -65,8 +67,6 @@ export class SettingService {
                         this.settings = {
                             altVoiceControl: false, distance: 300, repeat: 'Always', language: 'en-US', areas_List: area_list
                         };
-
-
                     }
 
                     console.log('Success data get!');
@@ -75,7 +75,13 @@ export class SettingService {
             )
             .catch(
                 error => {
-                    console.log('Error data get : ' + error.messages);
+                    let alert = this.alertCtrl.create({
+                        title: 'Error',
+                        subTitle: 'Failed to load resource:http://tawwebt2test01.tatw.micron.com/MUIWEB/api/values',
+                        buttons: ['Dismiss']
+                    });
+
+                    alert.present();
                 }
             );
     }

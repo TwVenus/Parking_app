@@ -37,16 +37,10 @@
         "cordova-sqlite-storage": {
             "PACKAGE_NAME": "com.micron.SmartParking"
         },
-        "cordova-plugin-android-permissions": {
-            "PACKAGE_NAME": "com.micron.SmartParking"
-        },
-        "cordova-plugin-background-mode": {
-            "PACKAGE_NAME": "com.micron.SmartParking"
-        },
         "cordova-plugin-insomnia": {
             "PACKAGE_NAME": "com.micron.SmartParking"
         },
-        "cordova-plugin-background-fetch": {
+        "cordova-plugin-android-permissions": {
             "PACKAGE_NAME": "com.micron.SmartParking"
         }
     },
