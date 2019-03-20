@@ -7,7 +7,7 @@ import { SettingService } from '../../core/services/settingservice';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 
-//import { Insomnia } from '@ionic-native/insomnia';
+import { Insomnia } from '@ionic-native/insomnia';
 import { Area } from '../../core/models/area.interface';
 import { Settings } from './../../core/models/setting.interface';
 import { LoadingController, AlertController } from 'ionic-angular';
@@ -20,6 +20,7 @@ import { LoadingController, AlertController } from 'ionic-angular';
 export class HomePage implements OnInit {
     public settings: Settings = null;
     public parkingLotsCollection: ParkingLot[] = [];
+    public control_gps_detection: boolean = true;
 
     public gps_distance: number[] = [];
     public speakText: string[] = [];
@@ -28,7 +29,7 @@ export class HomePage implements OnInit {
     public voice_repeat: boolean = true;
 
     constructor(
-        //public insomnia: Insomnia,
+        public insomnia: Insomnia,
         public geolocation: Geolocation,
         private tts: TextToSpeech,
         private loadingCtrl: LoadingController,
@@ -37,13 +38,17 @@ export class HomePage implements OnInit {
         private parkigLotService: ParkingLotService,
         private settingService: SettingService,
     ) {
-        // device not sleep
-        // this.insomnia.keepAwake().then(
-        //     () => console.log('Success'),
-        //     () => console.log('error keepAlive')
-        // ).catch(
-        //     (reason: any) => console.log("insomnia : " + reason)
-        // );
+        try {
+            // device not sleep
+            this.insomnia.keepAwake().then(
+                () => console.log('Success'),
+                () => console.log('error keepAlive')
+            ).catch(
+                (reason: any) => console.log("insomnia : " + reason)
+            );
+        } catch{
+            console.log('error keepAlive')
+        }
     }
 
     ngOnInit() {
@@ -52,10 +57,65 @@ export class HomePage implements OnInit {
         });
         this.loading.present();
 
-        this.getSettingsFromStorage();  // Init setting
+        this.getSettingsFromStorage();  // Init setting    
     }
 
-    ionViewDidEnter() {
+    private getSettingsFromStorage() {
+        this.settingService.fetchSettings().then(
+            (settings: Settings) => {
+                this.settings = settings;
+
+                if (this.settings != null) {
+                    this.getAPIData();
+                } else {
+                    this.loading.dismiss();
+                    let alert = this.alertCtrl.create({
+                        title: 'Setting loading error.',
+                        subTitle: 'Please drop the app and open again.',
+                        buttons: ['Dismiss']
+                    });
+                    alert.present();
+                }
+            }
+        );
+    }
+
+    private getAPIData() {
+        this.defaultService.getParkingLotData().subscribe(data => {
+            data.forEach(element => {
+                this.parkigLotService.addParkingLotToList(element);
+            });
+            this.getParkingLotsData();
+        });
+    }
+
+    // Cards content
+    private getParkingLotsData() {
+        this.parkingLotsCollection = [];
+        const areas_order: Area[] = this.settings.areas_List; // get area order
+        const parkinglots: ParkingLot[] = this.parkigLotService.getParkingLotList(); // get parkinglot data
+
+        // change order
+        areas_order.forEach(element_area_name => {
+            parkinglots.forEach(element_parkinglot => {
+                if (element_area_name.area.trim() == element_parkinglot.Area.trim()) {
+                    this.parkingLotsCollection.push(element_parkinglot);
+                }
+            });
+        });
+
+
+        if (this.parkingLotsCollection != null && this.control_gps_detection == true) {
+            this.gps_detection();
+            this.loading.dismiss();
+            this.control_gps_detection = false;
+        } else {
+            this.getSettingsFromStorage();
+        }
+
+    }
+
+    private gps_detection() {
         var ten_min_count = 0;
         var repeat_times = 0;
 
@@ -89,59 +149,6 @@ export class HomePage implements OnInit {
         }, 10000);
     }
 
-    private getSettingsFromStorage() {
-        this.settingService.fetchSettings().then(
-            (settings: Settings) => {
-                this.settings = settings;
-
-                if (this.settings == null) {
-                    let alert = this.alertCtrl.create({
-                        title: 'Error',
-                        subTitle: 'Setting load error.',
-                        buttons: ['Dismiss']
-                    });
-                    alert.present();
-                }
-            }
-        );
-    }
-
-    private getAPIData() {
-        this.defaultService.getParkingLotData().subscribe(data => {
-            data.forEach(element => {
-                this.parkigLotService.addParkingLotToList(element);
-            });
-            this.getParkingLotsData();
-        });
-    }
-
-    // Cards content
-    private getParkingLotsData() {
-        this.parkingLotsCollection = [];
-        const areas_order: Area[] = this.settings.areas_List; // get area order
-        const parkinglots: ParkingLot[] = this.parkigLotService.getParkingLotList(); // get parkinglot data
-
-        // change order
-        areas_order.forEach(element_area_name => {
-            parkinglots.forEach(element_parkinglot => {
-                if (element_area_name.area.trim() == element_parkinglot.Area.trim()) {
-                    this.parkingLotsCollection.push(element_parkinglot);
-                }
-            });
-        });
-
-        if (this.parkingLotsCollection != null)
-            this.loading.dismiss();
-        else {
-            let alert = this.alertCtrl.create({
-                title: 'Error',
-                subTitle: 'Data load error.',
-                buttons: ['Dismiss']
-            });
-            alert.present();
-        }
-    }
-
     private pushInformation() {
         this.getAPIData();
 
@@ -171,7 +178,10 @@ export class HomePage implements OnInit {
                             else if (language == 'zh-CN' && area_element.check == true) {
                                 if (parkinglotspace_element.Area.trim() == 'A1A2') {
                                     text += "A萬A吐剩餘 " + parkinglotspace_element.CurrentQuantity.toString() + " 個空位。 ";
-                                } else {
+                                } else if (parkinglotspace_element.Area.trim() == 'P1') {
+                                    text += "P萬剩餘 " + parkinglotspace_element.CurrentQuantity.toString() + " 個空位。 ";
+                                }
+                                else {
                                     text += parkinglotspace_element.Area.trim() + " 剩餘 " + parkinglotspace_element.CurrentQuantity.toString() + " 個空位。 ";
                                 }
                             }
@@ -226,6 +236,10 @@ export class HomePage implements OnInit {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    onRefresh() {
+        window.location.reload();
     }
 
     ionViewDidLeave() {

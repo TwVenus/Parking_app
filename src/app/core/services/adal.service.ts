@@ -7,7 +7,7 @@ import { MSAdal, AuthenticationContext, AuthenticationResult, TokenCacheItem } f
 export class AdalAuthentication {
     context: AuthenticationContext;
     constructor(public platform: Platform, private MSAdal: MSAdal) {
-        this.platform.ready().then(()=>{
+        this.platform.ready().then(() => {
             this.context = this.MSAdal.createAuthenticationContext(environment.adalConfig.authority, false);
         });
     }
@@ -21,7 +21,7 @@ export class AdalAuthentication {
         this.context.tokenCache.readItems().then((items: TokenCacheItem) => {
             if (this.isDuplicatedCrendential(items)) {
                 console.log('have multi user');
-                this.context.tokenCache.clear().then(()=>{
+                this.context.tokenCache.clear().then(() => {
                     this.startLogin(authCompletedCallback, authErrorCallback);
                 });
             } else {
@@ -94,7 +94,7 @@ export class AdalAuthentication {
         return items.filter(item => item.userInfo).map(item => this.extractUserNamefromUniqueId(item.userInfo.uniqueId)).filter((value, index, array) => array.indexOf(value) === index) > 1;
     }
 
-    extractUserNamefromUniqueId(uniqueId: string): string{
+    extractUserNamefromUniqueId(uniqueId: string): string {
         if (uniqueId.indexOf("(") > -1) {
             return uniqueId.split('(')[1].split(')')[0];
         } else if (uniqueId.indexOf("@") > -1) {

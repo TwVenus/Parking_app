@@ -8,7 +8,7 @@ import { MSAdal } from '@ionic-native/ms-adal';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { IonicStorageModule } from '@ionic/storage';
-//import { Insomnia } from '@ionic-native/insomnia';
+import { Insomnia } from '@ionic-native/insomnia';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,7 +35,7 @@ import { AppComponent } from './app.component';
     ],
     providers: [
         Geolocation,
-        //Insomnia,
+        Insomnia,
         TextToSpeech,
         StatusBar,
         SplashScreen,

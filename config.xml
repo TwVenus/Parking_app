@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.micron.SmartParking" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Parking</name>
+    <name>MMT Parking</name>
     <description>Micron's parking Lot information.</description>
     <author email="wendyhu@micron.com" href="http://ionicframework.com/">Wendy Hu</author>
     <content src="index.html" />
